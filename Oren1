@@ -18,7 +18,6 @@ local Misc = Misc:NewSection("AntiLag Will Freeze Game For A Second")
 local Credits = Window:NewTab("Credits")
 local Credits = Credits:NewSection("Sloth I Dont Know How To Add Lables Or Texts So You May Need To Do It")
 
-
 --AutoRoll Toggle
 AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
     getgenv().Eggs_Roll = v
@@ -26,14 +25,6 @@ AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
         if getgenv().Eggs_Roll == false then return end
         game:GetService("ReplicatedStorage").Network.Eggs_Roll:InvokeServer()
         wait()
-    end
-end)
-
-AutoRoll:NewToggle("Auto Bonus Roll", "Auto Rolls Bonus", function(v)
-    getgenv().BonusRollsClaim = v  -- Use a valid variable name
-    while getgenv().BonusRollsClaim do  -- Loop only while enabled
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim")
-        wait(60)
     end
 end)
 
