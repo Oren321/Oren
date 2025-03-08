@@ -30,10 +30,9 @@ AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
 end)
 
 AutoRoll:NewToggle("Auto Bonus Roll", "Auto Rolls Bonus", function(v)
-    getgenv().BonusRollsClaim = v
-    while true do
-        if getgenv().BonusRollsClaim == false then return end
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("BonusRollsClaim"):InvokeServer()
+    getgenv().BonusRollsClaim = v  -- Use a valid variable name
+    while getgenv().BonusRollsClaim do  -- Loop only while enabled
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
         wait(60)
     end
 end)
