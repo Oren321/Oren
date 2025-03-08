@@ -18,6 +18,7 @@ local Misc = Misc:NewSection("AntiLag Will Freeze Game For A Second")
 local Credits = Window:NewTab("Credits")
 local Credits = Credits:NewSection("Sloth I Dont Know How To Add Lables Or Texts So You May Need To Do It")
 
+
 --AutoRoll Toggle
 AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
     getgenv().Eggs_Roll = v
