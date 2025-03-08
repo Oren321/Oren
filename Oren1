@@ -18,13 +18,14 @@ local Misc = Misc:NewSection("AntiLag Will Freeze Game For A Second")
 local Credits = Window:NewTab("Credits")
 local Credits = Credits:NewSection("Sloth I Dont Know How To Add Lables Or Texts So You May Need To Do It")
 
+
 --AutoRoll Toggle
 AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
     getgenv().Eggs_Roll = v
     while true do
         if getgenv().Eggs_Roll == false then return end
         game:GetService("ReplicatedStorage").Network.Eggs_Roll:InvokeServer()
-        wait()
+        task.wait(0.1)
     end
 end)
 
@@ -69,7 +70,7 @@ AutoCollectFishermanLoot:NewToggle("Auto Collect Fisherman Loot", "Auto Collects
     getgenv().AutoFish = v
     while getgenv().AutoFish do
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_FishermanClaim"):InvokeServer()
-        task.wait(30)
+        task.wait(60)
     end
 end)
 
@@ -291,7 +292,7 @@ AutoBuyMerchants:NewToggle("Auto Buy Vending Machine", "Buys Everything From The
             [1] = "PotionVendingMachine"
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("VendingMachines_Purchase"):InvokeServer(unpack(args))
-            task.wait(10)
+            task.wait(40)
         end
     else  -- If the toggle is off
         getgenv().AutoBuyVendingMachine = false
@@ -338,7 +339,7 @@ local args = {
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-        task.wait(10)
+        task.wait(30)
     end
 else
         getgenv().AutoBuyStandardMerchant = false
@@ -379,7 +380,7 @@ AutoBuyMerchants:NewToggle("Auto Buy Fishing Merchant", "Buys Everything From Th
     [2] = 6
 }
     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-        task.wait(10)
+        task.wait(30)
     end
 else
         getgenv().AutoBuyFishingMerchant = false
@@ -420,7 +421,7 @@ AutoBuyMerchants:NewToggle("Auto Buy Ice Merchant", "Auto Buys Ice Merchant", fu
     [2] = 6
 }
     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-        task.wait(10)
+        task.wait(30)
     end
 else
         getgenv().AutoBuyIceFishingMerchant = false
@@ -473,7 +474,7 @@ AutoBuyMerchants:NewToggle("Auto Buy Mining Merchant", "Auto Buys Mining Merchan
     }
     
     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-        task.wait(10)
+        task.wait(30)
     end
 else
     getgenv().AutoBuyIceFishingMerchant = false
@@ -532,7 +533,7 @@ local args = {
 }
 
     game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-        task.wait(10)
+        task.wait(30)
     end
 else
         getgenv().AutoBuyIceFishingMerchant = false
