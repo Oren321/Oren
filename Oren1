@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("Project Fred", "Midnight")
+local Window = Library.CreateLib("Project Fred")
 
 --AutoTab
 local Auto = Window:NewTab("Auto Roll")
@@ -11,6 +11,9 @@ local Auto3 = Window:NewTab("Auto Mine")
 local AutoMine = Auto3:NewSection("Auto Mine")
 local Auto4 = Window:NewTab("Auto Theive")
 local AutoTheive = Auto4:NewSection("Auto Theive")
+local AutoBuy = Window:NewTab("Auto Buy")
+local AutoBuyMerchants = AutoBuy:NewSection("Merchants")
+
 
 --AutoRoll Toggle
 AutoRoll:NewToggle("Auto Roll Pets", "AutoRolls", function(v)
@@ -41,11 +44,12 @@ AutoFish:NewToggle("Auto Fish Ice", "Ice Fishing Area", function(v)
     end
 end)
 
-AutoFish:NewToggle("Auto Fish Corrupted", "Corrupted Fishing Area", function(state)
-    if state then
-        print("Toggle On")
-    else
-        print("Toggle Off")
+AutoFish:NewToggle("Auto Fish Corrupted", "Corrupted Fishing Area", function(v)
+    getgenv().AutoFish = v
+    while getgenv().AutoFish do
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer("Corrupted")
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()        
+        task.wait()
     end
 end)
 
@@ -260,4 +264,59 @@ AutoTheive:NewButton("Hacker Stall", "AutoThieves Hacker Stall", function()
     local targetPosition = game:GetService("ReplicatedStorage").__DIRECTORY.ThievingObjects["ThievingObject 9 | Hacker Stall"].Model.Pad.PadGlow.Position
 
     humanoidRootPart.CFrame = CFrame.new(targetPosition)
+end)
+
+--AutoBuy
+AutoBuyMerchants:NewToggle("Auto Buy Vending Machine", "Buys Everything From The Vending Machine", function(v)
+    if v then
+        getgenv().AutoBuyVendingMachine = true
+        while getgenv().AutoBuyVendingMachine do
+            local args = {
+            [1] = "PotionVendingMachine"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("VendingMachines_Purchase"):InvokeServer(unpack(args))
+            task.wait(10)
+        end
+    else  -- If the toggle is off
+        getgenv().AutoBuyVendingMachine = false
+    end
+end)
+
+AutoBuyMerchants:NewToggle("Auto Buy Fishing Merchant", "Buys Everything From The Fishing Merchant", function(v)
+    if v then
+        getgenv().AutoBuyFishingMerchant = true
+        while getgenv().AutoBuyFishingMerchant do
+        local args = {
+    [1] = "FishingMerchant",
+    [2] = 1
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+local args = {
+    [1] = "FishingMerchant",
+    [2] = 2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+local args = {
+    [1] = "FishingMerchant",
+    [2] = 3
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+local args = {
+    [1] = "FishingMerchant",
+    [2] = 4
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+local args = {
+    [1] = "FishingMerchant",
+    [2] = 5
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+local args = {
+    [1] = "FishingMerchant",
+    [2] = 6
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+task.wait(20)
+        getgenv().AutoBuyFishingMerchant = false
+    end
 end)
