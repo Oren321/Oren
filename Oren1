@@ -16,8 +16,7 @@ local AutoBuyMerchants = AutoBuy:NewSection("Merchants")
 local Misc = Window:NewTab("Misc")
 local Misc = Misc:NewSection("AntiLag Will Freeze Game For A Second")
 local Credits = Window:NewTab("Credits")
-local Credits = Credits:NewSection("Credits Below")
-
+local Credits = Credits:NewSection("Sloth I Dont Know How To Add Lables Or Texts So You May Need To Do It")
 
 --AutoRoll Toggle
 AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
@@ -26,6 +25,15 @@ AutoRoll:NewToggle("Auto Roll", "AutoRolls", function(v)
         if getgenv().Eggs_Roll == false then return end
         game:GetService("ReplicatedStorage").Network.Eggs_Roll:InvokeServer()
         wait()
+    end
+end)
+
+AutoRoll:NewToggle("Auto Bonus Roll", "Auto Rolls Bonus", function(v)
+    getgenv().Bonus Rolls: Claim = v
+    while true do
+        if getgenv().Bonus Rolls: Claim == false then return end
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Bonus Rolls: Claim"):InvokeServer()
+        wait(60)
     end
 end)
 
@@ -543,5 +551,3 @@ end)
 Misc:NewButton("AntiLag", "AntiLag Will Freeze Game For A Second", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Oren321/AntiLag/refs/heads/main/OpenSourced", true))()
 end)
-
-Credits:NewLabel("Test")
