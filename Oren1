@@ -538,6 +538,6 @@ else
     end
 end)
 
-Misc:NewButton("AntiLag", "AntiLag Will Freeze Game For A Second", function(State)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Oren321/AntiLag/refs/heads/main/OpenSourced", true))()
+Misc:NewButton("AntiLag", "AntiLag Will Freeze Game For A Second", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Oren321/AntiLag/refs/heads/main/OpenSourced", true))()
 end)
