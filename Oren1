@@ -89,3 +89,50 @@ local Toggle = Tabs.Event:AddToggle("Event",
         end
     end 
 })
+
+local Toggle = Tabs.Event:AddToggle("Event", 
+{
+    Title = "Auto Clover Upgrade", 
+    Description = "",
+    Default = false,
+    Callback = function(state)
+        if state then
+            getgenv().AutoCloverUpgrade = true
+            spawn(function()
+                while getgenv().AutoCloverUpgrade do
+                    local args = { [1] = "Patch_1", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Farmer", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Speed1", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Speed2", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Quality1", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Quality2", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Speed3", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_1_Quality3", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+
+                    local args = { [1] = "Patch_2", [2] = "Clover" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
+                    
+
+                    task.wait(1)
+                end
+            end)
+        else
+            getgenv().AutoCloverUpgrade = false
+        end
+    end 
+})
