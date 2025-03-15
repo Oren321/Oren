@@ -1,161 +1,34 @@
---UI
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+-- Load Fluent UI Library
+local Library = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
---Window
-local Window = Fluent:CreateWindow({
-    Title = "Private Script" .. Fluent.Version,
-    SubTitle = "By Fred And Massy",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Darker",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+-- Create a UI window
+local Window = Library:Window("Merchant Purchases")
+
+-- Define available merchants
+local Merchants = {"CloverMerchant", "GoldenMerchant", "DiamondMerchant"}
+
+-- Create a multi-select dropdown
+local MultiDropdown = Window:AddDropdown("MerchantDropdown", {
+    Title = "Select Merchants to Purchase",
+    Values = Merchants,
+    Multi = true,  -- Enables multi-selection
 })
 
---Tabs
-local Tabs = {
-    Event = Window:AddTab({ Title = "Event", Icon = "" }),
-}
-
--- Event Toggles
-local Toggle = Tabs.Event:AddToggle("Event", 
-{
-    Title = "Auto Roll Clover Egg", 
-    Description = "",
-    Default = false,
-    Callback = function(state)
-        if state then
-            getgenv().Eggs_Roll2 = true
-            while getgenv().Eggs_Roll2 do
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HatchEgg"):InvokeServer()
-                task.wait(16)
-            end
-        else
-            getgenv().Eggs_Roll2 = false
-        end
-    end 
-})
-
-local Toggle = Tabs.Event:AddToggle("Event", 
-{
-    Title = "Auto Collect Clovers", 
-    Description = "",
-    Default = false,
-    Callback = function(state)
-        if state then
-            getgenv().AutoCollectClover = true
-            while getgenv().AutoCollectClover do
-                local clovers = workspace.__THINGS.Clovers
-
-                local function fireTouchInterest(part)
-                    local playerChar = game.Players.LocalPlayer.Character
-                    local primaryPart = playerChar and playerChar.PrimaryPart or part
-                    firetouchinterest(part, primaryPart, 0)
-                    firetouchinterest(part, primaryPart, 1)
-                end
-
-                for _, model in pairs(clovers:GetChildren()) do
-                    local part = model:FindFirstChild("Part")
-                    if part then
-                        fireTouchInterest(part)
-                    end
-                end
-                task.wait()
-            end
-        else
-            getgenv().AutoCollectClover = false
+-- Function to handle purchase requests
+local function purchaseMerchant(selectedMerchants)
+    for merchant, isSelected in pairs(selectedMerchants) do
+        if isSelected then
+            local args = {
+                [1] = merchant,  -- Selected merchant name
+                [2] = 2          -- Quantity (Adjust as needed)
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
+            print("Purchased from: " .. merchant)
         end
     end
-})
+end
 
-local Toggle = Tabs.Event:AddToggle("Event", 
-{
-    Title = "Auto Collect Hopper Loot", 
-    Description = "",
-    Default = false,
-    Callback = function(state)
-        if state then
-            getgenv().AutoFish = true
-            spawn(function()
-                while getgenv().AutoFish do
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HopperClaim"):InvokeServer()
-                    task.wait(15)
-                end
-            end)
-        else
-            getgenv().AutoFish = false
-        end
-    end 
-})
-
-local Toggle = Tabs.Event:AddToggle("Event", 
-{
-    Title = "Auto Clover Upgrade", 
-    Description = "",
-    Default = false,
-    Callback = function(state)
-        if state then
-            getgenv().AutoCloverUpgrade = true
-            spawn(function()
-                while getgenv().AutoCloverUpgrade do
-                    local args = { [1] = "Patch_1", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Farmer", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Speed1", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Speed2", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Quality1", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Quality2", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Speed3", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_1_Quality3", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-
-                    local args = { [1] = "Patch_2", [2] = "Clover" }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Tycoons: Purchase"):InvokeServer(unpack(args))
-                    
-
-                    task.wait(1)
-                end
-            end)
-        else
-            getgenv().AutoCloverUpgrade = false
-        end
-    end 
-})
-
-local Toggle = Tabs.Event:AddToggle("Event", 
-{
-    Title = "Auto Buy Clover Merchant", 
-    Description = "", 
-    Default = false,
-    Callback = function(state)
-        if state then
-            print("Auto Buy Clover Merchant: ON")
-            getgenv().AutoBuyCloverMerchant = true
-            while getgenv().AutoBuyCloverMerchant do
-                for i = 1, 8 do
-                    local args = { [1] = "CloverMerchant", [2] = i }
-                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("CustomMerchants_Purchase"):InvokeServer(unpack(args))
-                end
-                task.wait(30)
-            end
-        else
-            print("Auto Buy Clover Merchant: OFF")
-            getgenv().AutoBuyCloverMerchant = false
-        end
-    end
-})
+-- Trigger purchase when selections change
+MultiDropdown:OnChanged(function(selectedMerchants)
+    purchaseMerchant(selectedMerchants)
+end)
