@@ -73,16 +73,21 @@ local Toggle = Tabs.Event:AddToggle("Event",
 local Toggle = Tabs.Event:AddToggle("Event", 
 {
     Title = "Auto Collect Hopper Loot", 
-    Description = "",
+    Description = "Automatically collects hopper loot every 30 seconds.",
     Default = false,
     Callback = function(state)
         if state then
+            print("Auto Collect Hopper Loot: ON")
             getgenv().AutoFish = true
-            while getgenv().AutoFish do
-                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HopperClaim"):InvokeServer()
-                task.wait(30)
-            end
+            -- Start the loop to collect loot every 30 seconds
+            spawn(function()
+                while getgenv().AutoFish do
+                    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Clovers_HopperClaim"):InvokeServer()
+                    task.wait(30)  -- Wait for 30 seconds
+                end
+            end)
         else
+            print("Auto Collect Hopper Loot: OFF")
             getgenv().AutoFish = false
         end
     end 
