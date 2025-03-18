@@ -1,5 +1,5 @@
 --Gui
-Private = loadstring(game:HttpGet("https://raw.githubusercontent.com/Oren321/Gui/refs/heads/main/Gui", true))()
+local Private = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProjectFred/Library/main/src"))()
 
 --Window
 local Window = Private:Window({
@@ -158,19 +158,20 @@ EventTab:Toggle({
 })
 
 --Fish Tab
+FishTab:Label("Fishing!")
+
 local FishTab = Window:Tab({
     Name = "Auto Fish",
     tabColor = Color3.fromRGB(255, 105, 180),
     Image = "rbxassetid://10709798174"
- })
+})
 
- local FishingSpots = {
+local FishingSpots = {
     "Default",
     "Ice",
     "Kraken",
     "Corrupted",
 }
-
 
 FishTab:Dropdown({
     Name = "Select Fishing Spot",
@@ -182,16 +183,22 @@ FishTab:Dropdown({
     end
 })
 
+local isToggled = false
+
 FishTab:Toggle({
     Name = "Auto Fish",
     Default = false,
     Callback = function(var)
-        while var do
-        local args = {
-            [1] = selectedFishingSpot
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
-        task.wait()
+        isToggled = var
+        if isToggled then
+            while isToggled do
+                local args = {
+                    [1] = selectedFishingSpot
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
+                game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
+                task.wait()
+            end
+        end
     end
 })
