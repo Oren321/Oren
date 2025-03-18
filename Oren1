@@ -186,10 +186,12 @@ FishTab:Toggle({
     Name = "Auto Fish",
     Default = false,
     Callback = function(var)
+        while var do
         local args = {
             [1] = selectedFishingSpot
         }
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Fish"):InvokeServer(unpack(args))
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Fishing_Success"):FireServer()
+        task.wait()
     end
 })
